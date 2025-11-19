@@ -3,88 +3,40 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { pagesService } from '../../services/pagesService';
 import { sectionsService } from '../../services/sectionsService';
-import { SectionRenderer } from './SectionRenderer';
-import { Loading } from '../ui/Loading';
 
 /**
- * Page Renderer Component
- * Renders a dynamic page with its sections
+ * Page Renderer Placeholder
+ * Loads backend data without rendering UI so the public site stays blank.
  */
 export const PageRenderer = () => {
   const { slug } = useParams();
 
-  // Fetch all pages to find the one with matching slug
-  const { data: pages, isLoading: pagesLoading } = useQuery({
+  const { data: pages = [], isLoading: pagesLoading } = useQuery({
     queryKey: ['pages'],
     queryFn: pagesService.getPages,
   });
 
-  // Find page by slug
-  const page = pages?.find(p => p.slug === slug);
+  const page = pages.find((p) => p.slug === slug);
 
-  // Fetch full page data with sections
-  const { data: pageData, isLoading: pageLoading } = useQuery({
+  const pageQuery = useQuery({
     queryKey: ['page', page?.id],
     queryFn: () => pagesService.getPage(page.id),
     enabled: !!page?.id,
   });
 
-  const { data: sections = [], isLoading: sectionsLoading } = useQuery({
+  const sectionsQuery = useQuery({
     queryKey: ['sections', page?.id],
     queryFn: () => sectionsService.getSectionsByPage(page.id),
     enabled: !!page?.id,
   });
 
-  if (pagesLoading || pageLoading || sectionsLoading) {
-    return <Loading size="lg" text="Loading page..." />;
-  }
-
-  if (!page || !pageData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            404 - Page Not Found
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            The page you're looking for doesn't exist.
-          </p>
-          <a
-            href="/"
-            className="inline-block mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Go Home
-          </a>
-        </div>
-      </div>
-    );
-  }
-
+  const isHydrating = pagesLoading || pageQuery.isLoading || sectionsQuery.isLoading;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Page Title (optional, can be removed if sections handle titles) */}
-      {/* <div className="bg-white dark:bg-gray-800 py-8 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            {pageTitle}
-          </h1>
-        </div>
-      </div> */}
-
-      {/* Render Sections */}
-      {sections.length > 0 ? (
-        sections.map((section) => (
-          <SectionRenderer key={section.id} section={section} />
-        ))
-      ) : (
-        <div className="py-16 text-center">
-          <p className="text-gray-600 dark:text-gray-400">
-            This page has no content yet.
-          </p>
-        </div>
-      )}
-    </div>
+    <div
+      className="min-h-screen bg-white"
+      data-loading={isHydrating ? 'true' : 'false'}
+    />
   );
 };
 
