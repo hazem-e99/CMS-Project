@@ -1,18 +1,19 @@
 import { create } from 'zustand';
-import { authAPI } from '../services/api';
+import { authService } from '../services/authService';
 
 /**
  * Authentication store using Zustand
  */
 export const useAuthStore = create((set) => ({
-  user: null,
+  user: JSON.parse(localStorage.getItem('authUser') || 'null'),
   token: localStorage.getItem('authToken'),
   isAuthenticated: !!localStorage.getItem('authToken'),
   
   login: async (email, password) => {
     try {
-      const response = await authAPI.login(email, password);
+      const response = await authService.login(email, password);
       localStorage.setItem('authToken', response.token);
+      localStorage.setItem('authUser', JSON.stringify(response.user));
       set({ 
         user: response.user, 
         token: response.token, 
@@ -26,18 +27,24 @@ export const useAuthStore = create((set) => ({
   
   logout: async () => {
     try {
-      await authAPI.logout();
+      await authService.logout();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
       localStorage.removeItem('authToken');
+      localStorage.removeItem('authUser');
       set({ user: null, token: null, isAuthenticated: false });
     }
   },
   
   checkAuth: () => {
     const token = localStorage.getItem('authToken');
-    set({ isAuthenticated: !!token });
+    const storedUser = JSON.parse(localStorage.getItem('authUser') || 'null');
+    set({ 
+      isAuthenticated: !!token,
+      token,
+      user: storedUser,
+    });
   },
 }));
 
