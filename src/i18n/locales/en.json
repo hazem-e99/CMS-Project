@@ -1,0 +1,181 @@
+{
+  "app": {
+    "title": "Dynamic CMS Platform",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "back": "Back",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "preview": "Preview",
+    "publish": "Publish",
+    "unpublish": "Unpublish"
+  },
+  "nav": {
+    "home": "Home",
+    "admin": "Admin",
+    "login": "Login",
+    "logout": "Logout",
+    "language": "Language",
+    "theme": "Theme"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign In",
+    "loginSuccess": "Logged in successfully",
+    "loginError": "Invalid credentials",
+    "logoutSuccess": "Logged out successfully"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "pages": "Pages",
+    "sections": "Sections",
+    "surveys": "Surveys",
+    "settings": "Settings"
+  },
+  "pages": {
+    "title": "Pages",
+    "create": "Create Page",
+    "edit": "Edit Page",
+    "delete": "Delete Page",
+    "deleteConfirm": "Are you sure you want to delete this page?",
+    "slug": "Slug",
+    "visible": "Visible",
+    "showInNavbar": "Show in Navbar",
+    "order": "Order",
+    "parent": "Parent Page",
+    "noParent": "None (Top Level)",
+    "addSection": "Add Section",
+    "saveSuccess": "Page saved successfully",
+    "deleteSuccess": "Page deleted successfully"
+  },
+  "sections": {
+    "title": "Sections",
+    "create": "Create Section",
+    "edit": "Edit Section",
+    "delete": "Delete Section",
+    "deleteConfirm": "Are you sure you want to delete this section?",
+    "type": "Section Type",
+    "reorder": "Reorder Sections",
+    "types": {
+      "hero": "Hero Section",
+      "header": "Header",
+      "image-left": "Image Left + Text",
+      "image-right": "Image Right + Text",
+      "cta": "Call to Action",
+      "features": "Features Grid",
+      "testimonials": "Testimonials",
+      "faq": "FAQ",
+      "rich": "Rich HTML Block"
+    },
+    "content": {
+      "title": "Title",
+      "details": "Details",
+      "image": "Image",
+      "button": "Button",
+      "buttonText": "Button Text",
+      "buttonLink": "Button Link",
+      "shareText": "Share Text"
+    },
+    "layout": {
+      "imagePosition": "Image Position",
+      "bg": "Background",
+      "padding": "Padding",
+      "textAlign": "Text Align",
+      "backgroundImage": "Background Image",
+      "backgrounds": {
+        "white": "White",
+        "light": "Light Gray",
+        "dark": "Dark",
+        "gradient": "Gradient",
+        "image": "Background Image"
+      },
+      "paddings": {
+        "sm": "Small",
+        "md": "Medium",
+        "lg": "Large",
+        "xl": "Extra Large"
+      },
+      "aligns": {
+        "left": "Left",
+        "center": "Center",
+        "right": "Right"
+      }
+    },
+    "saveSuccess": "Section saved successfully",
+    "deleteSuccess": "Section deleted successfully"
+  },
+  "surveys": {
+    "title": "Surveys",
+    "create": "Create Survey",
+    "edit": "Edit Survey",
+    "delete": "Delete Survey",
+    "deleteConfirm": "Are you sure you want to delete this survey?",
+    "slug": "Slug",
+    "description": "Description",
+    "isPublic": "Public",
+    "questions": "Questions",
+    "addQuestion": "Add Question",
+    "responses": "Responses",
+    "viewResponses": "View Responses",
+    "exportCSV": "Export CSV",
+    "publicLink": "Public Link",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied to clipboard",
+    "questionTypes": {
+      "text": "Text Input",
+      "single-choice": "Single Choice",
+      "multi-choice": "Multiple Choice"
+    },
+    "question": {
+      "text": "Question Text",
+      "type": "Type",
+      "required": "Required",
+      "options": "Options",
+      "addOption": "Add Option",
+      "optionText": "Option Text"
+    },
+    "submit": "Submit Survey",
+    "submitSuccess": "Survey submitted successfully",
+    "submitError": "Error submitting survey",
+    "saveSuccess": "Survey saved successfully",
+    "deleteSuccess": "Survey deleted successfully",
+    "noResponses": "No responses yet",
+    "responsesCount": "{{count}} response(s)"
+  },
+  "share": {
+    "title": "Share",
+    "facebook": "Share on Facebook",
+    "twitter": "Share on Twitter",
+    "whatsapp": "Share on WhatsApp",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied!"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "toggle": "Toggle Theme"
+  },
+  "preview": {
+    "title": "Preview",
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "close": "Close Preview"
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية",
+    "ku": "کوردی"
+  }
+}
+

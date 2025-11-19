@@ -1,0 +1,181 @@
+{
+  "app": {
+    "title": "منصة إدارة المحتوى الديناميكية",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "back": "رجوع",
+    "confirm": "تأكيد",
+    "yes": "نعم",
+    "no": "لا",
+    "search": "بحث",
+    "filter": "تصفية",
+    "actions": "إجراءات",
+    "preview": "معاينة",
+    "publish": "نشر",
+    "unpublish": "إلغاء النشر"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "admin": "الإدارة",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "language": "اللغة",
+    "theme": "السمة"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loginButton": "دخول",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "loginError": "بيانات اعتماد غير صحيحة",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح"
+  },
+  "admin": {
+    "dashboard": "لوحة الإدارة",
+    "pages": "الصفحات",
+    "sections": "الأقسام",
+    "surveys": "الاستبيانات",
+    "settings": "الإعدادات"
+  },
+  "pages": {
+    "title": "الصفحات",
+    "create": "إنشاء صفحة",
+    "edit": "تعديل صفحة",
+    "delete": "حذف صفحة",
+    "deleteConfirm": "هل أنت متأكد من حذف هذه الصفحة؟",
+    "slug": "المعرف",
+    "visible": "مرئية",
+    "showInNavbar": "إظهار في شريط التنقل",
+    "order": "الترتيب",
+    "parent": "الصفحة الأم",
+    "noParent": "لا شيء (المستوى الأعلى)",
+    "addSection": "إضافة قسم",
+    "saveSuccess": "تم حفظ الصفحة بنجاح",
+    "deleteSuccess": "تم حذف الصفحة بنجاح"
+  },
+  "sections": {
+    "title": "الأقسام",
+    "create": "إنشاء قسم",
+    "edit": "تعديل قسم",
+    "delete": "حذف قسم",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا القسم؟",
+    "type": "نوع القسم",
+    "reorder": "إعادة ترتيب الأقسام",
+    "types": {
+      "hero": "قسم Hero",
+      "header": "رأس الصفحة",
+      "image-left": "صورة على اليسار + نص",
+      "image-right": "صورة على اليمين + نص",
+      "cta": "دعوة للعمل",
+      "features": "شبكة الميزات",
+      "testimonials": "الشهادات",
+      "faq": "الأسئلة الشائعة",
+      "rich": "كتلة HTML غنية"
+    },
+    "content": {
+      "title": "العنوان",
+      "details": "التفاصيل",
+      "image": "الصورة",
+      "button": "الزر",
+      "buttonText": "نص الزر",
+      "buttonLink": "رابط الزر",
+      "shareText": "نص المشاركة"
+    },
+    "layout": {
+      "imagePosition": "موضع الصورة",
+      "bg": "الخلفية",
+      "padding": "الحشو",
+      "textAlign": "محاذاة النص",
+      "backgroundImage": "صورة الخلفية",
+      "backgrounds": {
+        "white": "أبيض",
+        "light": "رمادي فاتح",
+        "dark": "داكن",
+        "gradient": "تدرج",
+        "image": "صورة كخلفية"
+      },
+      "paddings": {
+        "sm": "صغير",
+        "md": "متوسط",
+        "lg": "كبير",
+        "xl": "كبير جدًا"
+      },
+      "aligns": {
+        "left": "يسار",
+        "center": "وسط",
+        "right": "يمين"
+      }
+    },
+    "saveSuccess": "تم حفظ القسم بنجاح",
+    "deleteSuccess": "تم حذف القسم بنجاح"
+  },
+  "surveys": {
+    "title": "الاستبيانات",
+    "create": "إنشاء استبيان",
+    "edit": "تعديل استبيان",
+    "delete": "حذف استبيان",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا الاستبيان؟",
+    "slug": "المعرف",
+    "description": "الوصف",
+    "isPublic": "عام",
+    "questions": "الأسئلة",
+    "addQuestion": "إضافة سؤال",
+    "responses": "الردود",
+    "viewResponses": "عرض الردود",
+    "exportCSV": "تصدير CSV",
+    "publicLink": "رابط عام",
+    "copyLink": "نسخ الرابط",
+    "linkCopied": "تم نسخ الرابط إلى الحافظة",
+    "questionTypes": {
+      "text": "إدخال نص",
+      "single-choice": "اختيار واحد",
+      "multi-choice": "اختيار متعدد"
+    },
+    "question": {
+      "text": "نص السؤال",
+      "type": "النوع",
+      "required": "مطلوب",
+      "options": "الخيارات",
+      "addOption": "إضافة خيار",
+      "optionText": "نص الخيار"
+    },
+    "submit": "إرسال الاستبيان",
+    "submitSuccess": "تم إرسال الاستبيان بنجاح",
+    "submitError": "خطأ في إرسال الاستبيان",
+    "saveSuccess": "تم حفظ الاستبيان بنجاح",
+    "deleteSuccess": "تم حذف الاستبيان بنجاح",
+    "noResponses": "لا توجد ردود بعد",
+    "responsesCount": "{{count}} رد (ردود)"
+  },
+  "share": {
+    "title": "مشاركة",
+    "facebook": "مشاركة على فيسبوك",
+    "twitter": "مشاركة على تويتر",
+    "whatsapp": "مشاركة على واتساب",
+    "copyLink": "نسخ الرابط",
+    "linkCopied": "تم نسخ الرابط!"
+  },
+  "theme": {
+    "light": "فاتح",
+    "dark": "داكن",
+    "toggle": "تبديل السمة"
+  },
+  "preview": {
+    "title": "معاينة",
+    "desktop": "سطح المكتب",
+    "mobile": "الجوال",
+    "close": "إغلاق المعاينة"
+  },
+  "languages": {
+    "en": "English",
+    "ar": "العربية",
+    "ku": "کوردی"
+  }
+}
+

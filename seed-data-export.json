@@ -1,0 +1,217 @@
+{
+  "pages": [
+    {
+      "id": "page-1",
+      "slug": "home",
+      "title": {
+        "en": "Home",
+        "ar": "الرئيسية",
+        "ku": "سەرەکی"
+      },
+      "visible": true,
+      "showInNavbar": true,
+      "navbarParentId": null,
+      "order": 1,
+      "sections": ["section-1", "section-2"]
+    },
+    {
+      "id": "page-2",
+      "slug": "about",
+      "title": {
+        "en": "About Us",
+        "ar": "من نحن",
+        "ku": "دەربارەی ئێمە"
+      },
+      "visible": true,
+      "showInNavbar": true,
+      "navbarParentId": null,
+      "order": 2,
+      "sections": ["section-3", "section-4"]
+    },
+    {
+      "id": "page-3",
+      "slug": "services",
+      "title": {
+        "en": "Services",
+        "ar": "خدماتنا",
+        "ku": "خزمەتگوزاری"
+      },
+      "visible": true,
+      "showInNavbar": true,
+      "navbarParentId": null,
+      "order": 3,
+      "sections": ["section-5"]
+    },
+    {
+      "id": "page-4",
+      "slug": "contact",
+      "title": {
+        "en": "Contact",
+        "ar": "اتصل بنا",
+        "ku": "پەیوەندی"
+      },
+      "visible": true,
+      "showInNavbar": true,
+      "navbarParentId": null,
+      "order": 4,
+      "sections": ["section-6"]
+    }
+  ],
+  "sections": [
+    {
+      "id": "section-1",
+      "pageId": "page-1",
+      "type": "header",
+      "order": 1
+    },
+    {
+      "id": "section-2",
+      "pageId": "page-1",
+      "type": "features",
+      "order": 2
+    },
+    {
+      "id": "section-3",
+      "pageId": "page-2",
+      "type": "image-left",
+      "order": 1
+    },
+    {
+      "id": "section-4",
+      "pageId": "page-2",
+      "type": "testimonials",
+      "order": 2
+    },
+    {
+      "id": "section-5",
+      "pageId": "page-3",
+      "type": "features",
+      "order": 1
+    },
+    {
+      "id": "section-6",
+      "pageId": "page-4",
+      "type": "cta",
+      "order": 1
+    }
+  ],
+  "surveys": [
+    {
+      "id": "survey-1",
+      "slug": "customer-satisfaction",
+      "title": {
+        "en": "Customer Satisfaction Survey",
+        "ar": "استبيان رضا العملاء",
+        "ku": "ڕاپرسی ڕەزامەندی کڕیار"
+      },
+      "description": {
+        "en": "Help us improve by sharing your feedback",
+        "ar": "ساعدنا على التحسين من خلال مشاركة ملاحظاتك",
+        "ku": "یارمەتیمان بدە بۆ باشترکردن بە هاوبەشکردنی فیدباکەکەت"
+      },
+      "isPublic": true,
+      "questions": [
+        {
+          "id": "q1",
+          "type": "text",
+          "question": {
+            "en": "What is your name?",
+            "ar": "ما هو اسمك؟",
+            "ku": "ناوت چییە؟"
+          },
+          "required": true
+        },
+        {
+          "id": "q2",
+          "type": "single-choice",
+          "question": {
+            "en": "How satisfied are you with our platform?",
+            "ar": "ما مدى رضاك عن منصتنا؟",
+            "ku": "چەند ڕازی بوویت لە پلاتفۆرمەکەمان؟"
+          },
+          "required": true,
+          "options": [
+            {
+              "id": "opt1",
+              "text": {
+                "en": "Very Satisfied",
+                "ar": "راضٍ جدًا",
+                "ku": "زۆر ڕازیم"
+              }
+            },
+            {
+              "id": "opt2",
+              "text": {
+                "en": "Satisfied",
+                "ar": "راضٍ",
+                "ku": "ڕازیم"
+              }
+            },
+            {
+              "id": "opt3",
+              "text": {
+                "en": "Neutral",
+                "ar": "محايد",
+                "ku": "بێلایەن"
+              }
+            },
+            {
+              "id": "opt4",
+              "text": {
+                "en": "Dissatisfied",
+                "ar": "غير راضٍ",
+                "ku": "ڕازی نیم"
+              }
+            }
+          ]
+        },
+        {
+          "id": "q3",
+          "type": "multi-choice",
+          "question": {
+            "en": "Which features do you use most? (Select all that apply)",
+            "ar": "ما هي الميزات التي تستخدمها أكثر؟ (حدد كل ما ينطبق)",
+            "ku": "کام تایبەتمەندییەکان زیاتر بەکاردێنیت؟ (هەموو ئەوانەی دەگونجێن دیاری بکە)"
+          },
+          "required": false,
+          "options": [
+            {
+              "id": "feat1",
+              "text": {
+                "en": "Page Builder",
+                "ar": "منشئ الصفحات",
+                "ku": "دروستکەری پەڕە"
+              }
+            },
+            {
+              "id": "feat2",
+              "text": {
+                "en": "Survey Builder",
+                "ar": "منشئ الاستبيانات",
+                "ku": "دروستکەری ڕاپرسی"
+              }
+            },
+            {
+              "id": "feat3",
+              "text": {
+                "en": "Multi-language Support",
+                "ar": "دعم متعدد اللغات",
+                "ku": "پشتگیری فرە زمانە"
+              }
+            },
+            {
+              "id": "feat4",
+              "text": {
+                "en": "Rich Text Editor",
+                "ar": "محرر النصوص الغني",
+                "ku": "دەستکاریکەری دەقی دەوڵەمەند"
+              }
+            }
+          ]
+        }
+      ],
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    }
+  ]
+}
+
