@@ -54,8 +54,8 @@ A powerful, modern CMS platform built with React, featuring full support for Ara
 - **Authentication**: Protected admin routes with simple login
 
 ### Technical Features
-- **Mock Backend**: MirageJS for in-browser API simulation
-- **React Query**: Efficient data fetching and caching
+- **Mock Backend**: JSON Server (`db.json` + `npm run mock:json`) for persistent local APIs
+- **API Layer**: Axios + modular services powered by React Query caching and mutations
 - **Zustand**: Lightweight state management
 - **Drag & Drop**: dnd-kit for sortable lists
 - **Routing**: React Router with protected routes
@@ -72,7 +72,7 @@ A powerful, modern CMS platform built with React, featuring full support for Ara
 - **i18n**: react-i18next
 - **Drag & Drop**: @dnd-kit
 - **Rich Text**: React Quill
-- **Mock API**: MirageJS
+- **Mock API**: JSON Server + Axios services
 
 > **Note**: Using React 18 instead of React 19 for compatibility with React Quill. React 19 will be supported once React Quill updates.
 
@@ -95,15 +95,29 @@ cd CMS-Project
 npm install
 ```
 
-3. Start the development server:
+3. Start the JSON Server (runs on http://localhost:5000):
+```bash
+npm run mock:json
+```
+
+4. In a new terminal start the Vite dev server:
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to:
+5. Open your browser and navigate to:
 ```
 http://localhost:5173
 ```
+
+### Common Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm install` | Install dependencies |
+| `npm run mock:json` | Start JSON Server on port 5000 |
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Produce a production build |
 
 ### Default Admin Credentials
 
@@ -194,88 +208,62 @@ Add translation files in `src/i18n/locales/`:
 
 ### Seed Data
 
-Modify `src/api/seedData.js` to customize initial data:
+- All persistent mock data lives in the repository root `db.json`.
+- Update the JSON directly or run `npm run mock:json` to watch for changes.
+- Coming from the legacy MirageJS seed? Run the helper script:
 
-```javascript
-export const seedData = {
-  users: [...],    // Admin users
-  pages: [...],    // Initial pages
-  sections: [...], // Initial sections
-  surveys: [...],  // Initial surveys
-};
+```bash
+node scripts/migrate-mirage-to-json.js
 ```
 
-## 🔄 Switching from MirageJS to Real Backend
+This reads `src/api/seedData.js` (if present) and rewrites `db.json` so you can keep your historical content.
 
-### Overview
+## 🔄 Switching from JSON Server to a Real Backend
 
-The application is designed to easily switch from MirageJS (mock backend) to a real backend. All API calls are centralized in `src/services/api.js`.
+All client-side data access flows through the Axios instance in `src/services/api.js`. To point the app at a real API:
 
-### Steps to Migrate
-
-1. **Update API Base URL**:
-
-```javascript
-// src/services/api.js
-const API_BASE = process.env.VITE_API_URL || 'https://your-backend.com/api';
-```
-
-2. **Remove MirageJS**:
-
-```javascript
-// src/main.jsx
-// Comment out or remove:
-// import { makeServer } from './api/mirage'
-// if (import.meta.env.MODE === 'development') {
-//   makeServer({ environment: 'development' })
-// }
-```
-
-3. **Implement Backend Endpoints**:
-
-Your backend should implement the following endpoints:
+1. **Configure the base URL** – set `VITE_API_BASE_URL=https://your-backend.com` in a `.env` file or update `API_BASE_URL` inside `src/services/api.js`.
+2. **Stop the mock server** – `npm run mock:json` is only needed for local JSON Server development.
+3. **Ensure your backend exposes the following endpoints (matching the shapes in `db.json`):**
 
 #### Authentication
 ```
-POST   /api/login
-POST   /api/logout
+POST   /login
+POST   /logout
 ```
 
 #### Pages
 ```
-GET    /api/pages
-GET    /api/pages/:id
-POST   /api/pages
-PUT    /api/pages/:id
-DELETE /api/pages/:id
+GET    /pages
+GET    /pages/:id
+POST   /pages
+PUT    /pages/:id
+DELETE /pages/:id (should also delete related sections)
 ```
 
 #### Sections
 ```
-GET    /api/sections?pageId=:id
-GET    /api/sections/:id
-POST   /api/sections
-PUT    /api/sections/:id
-DELETE /api/sections/:id
-POST   /api/sections/reorder
+GET    /sections?pageId=:id
+GET    /sections/:id
+POST   /sections
+PUT    /sections/:id
+DELETE /sections/:id
+PATCH  /sections/:id (for reordering/order-only updates)
 ```
 
-#### Surveys
+#### Surveys & Responses
 ```
-GET    /api/surveys
-GET    /api/surveys/:id
-POST   /api/surveys
-PUT    /api/surveys/:id
-DELETE /api/surveys/:id
-GET    /api/surveys/:id/responses
-POST   /api/surveys/:id/responses
+GET    /surveys
+GET    /surveys/:id
+POST   /surveys
+PUT    /surveys/:id
+DELETE /surveys/:id (should also delete related responses)
+
+GET    /surveyResponses?surveyId=:id
+POST   /surveyResponses
 ```
 
-#### Data Export/Import
-```
-GET    /api/export
-POST   /api/import
-```
+If you still have MirageJS seed data, run `node scripts/migrate-mirage-to-json.js` once to convert it into the JSON Server format before pointing the app at your new backend.
 
 ### API Request/Response Formats
 
@@ -372,7 +360,7 @@ VITE_ENABLE_MIRAGE=false
 ```
 CMS-Project/
 ├── src/
-│   ├── api/              # MirageJS mock server
+│   ├── api/              # Legacy MirageJS setup (kept for migration tooling)
 │   │   ├── mirage.js
 │   │   └── seedData.js
 │   ├── components/
@@ -433,6 +421,7 @@ CMS-Project/
 ├── index.html           # HTML template
 ├── package.json         # Dependencies
 ├── vite.config.js       # Vite configuration
+├── scripts/             # Tooling utilities (e.g., Mirage → JSON converter)
 └── README.md            # This file
 ```
 
@@ -472,8 +461,19 @@ Add new section types in:
 
 ## 🧪 Testing
 
+See `TESTS.md` for the condensed acceptance checklist that QA can follow before releases.
+
 ### Manual Testing Checklist
 
+#### Acceptance Smoke Tests
+- [ ] Create a page – verify it appears in `/admin/pages` and in the public navbar
+- [ ] Add a section – ensure it shows on the public page and persists after reload
+- [ ] Edit a section – confirm public content updates immediately and stays after refresh
+- [ ] Delete a section – verify removal from admin and public views
+- [ ] Create a survey – open the public link, submit, and confirm the response is stored
+- [ ] Login as admin (`admin@example.com / password123`) – confirm admin routes are accessible
+
+#### Extended Regression Pass
 - [ ] Login with admin credentials
 - [ ] Create a new page with content in all languages
 - [ ] Add various section types to the page
@@ -501,7 +501,7 @@ console.log(JSON.stringify(data, null, 2));
 
 1. Prepare JSON file with pages, sections, and surveys
 2. Use the `/api/import` endpoint (implement in your backend)
-3. Or modify `src/api/seedData.js` and restart dev server
+3. Or modify `db.json` directly and restart the JSON Server
 
 ## 🔒 Security Considerations
 
@@ -525,10 +525,11 @@ If you see an error about `findDOMNode is not a function`:
 - Run `npm install` to install the correct React version
 - The project uses React 18.3 for compatibility with React Quill
 
-### MirageJS not loading
+### JSON Server not running
 
-- Ensure `makeServer()` is called in `src/main.jsx`
-- Check browser console for errors
+- Make sure `npm run mock:json` is running in a dedicated terminal (default port: `5000`)
+- If the port is busy, stop other servers or pass `--port <number>` inside the script
+- Restart the Vite dev server after restarting JSON Server so React Query reconnects cleanly
 
 ### Language not switching
 
@@ -542,8 +543,8 @@ If you see an error about `findDOMNode is not a function`:
 
 ### Images not displaying
 
-- Images are stored as base64 strings in MirageJS
-- For production, implement proper image upload service
+- Images are stored as base64 strings inside `db.json`; confirm the `image` field exists on your section content
+- For production, implement proper image upload storage (e.g., S3) and store the resulting URLs
 
 ## 📝 License
 
