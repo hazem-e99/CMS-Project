@@ -1,0 +1,309 @@
+{
+  "pages": [
+    {
+      "id": 1,
+      "slug": "home",
+      "title": {
+        "en": "Home",
+        "ar": "الرئيسية",
+        "ku": "سەرەکی"
+      },
+      "visible": true,
+      "showInNavbar": true,
+      "navbarParentId": null,
+      "order": 1
+    },
+    {
+      "id": 2,
+      "slug": "about",
+      "title": {
+        "en": "About",
+        "ar": "من نحن",
+        "ku": "دەربارە"
+      },
+      "visible": true,
+      "showInNavbar": true,
+      "navbarParentId": null,
+      "order": 2
+    }
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "pageId": 1,
+      "type": "hero",
+      "content": {
+        "title": {
+          "en": "Welcome to the CMS",
+          "ar": "مرحباً بك في نظام المحتوى",
+          "ku": "بەخێربێن بۆ سیستەمی ناوەڕۆک"
+        },
+        "details": {
+          "en": "<p>Create multilingual sites backed by a persistent API.</p>",
+          "ar": "<p>أنشئ مواقع متعددة اللغات مدعومة بواجهة برمجة تطبيقات دائمة.</p>",
+          "ku": "<p>ماڵپەڕی فرەزمانەکان دروست بکە لەگەڵ API ئامادە.</p>"
+        },
+        "image": null,
+        "button": {
+          "text": {
+            "en": "Learn More",
+            "ar": "اعرف المزيد",
+            "ku": "زیاتر بزانە"
+          },
+          "link": "/page/about"
+        },
+        "shareText": {
+          "en": "Explore our CMS platform",
+          "ar": "استكشف منصة إدارة المحتوى الخاصة بنا",
+          "ku": "پلاتفۆرمی سیستەمی ناوەڕۆکەکەمان بسەیرە"
+        }
+      },
+      "layout": {
+        "imagePosition": "center",
+        "bg": "gradient",
+        "padding": "xl",
+        "textAlign": "center"
+      },
+      "order": 1
+    },
+    {
+      "id": 2,
+      "pageId": 1,
+      "type": "features",
+      "content": {
+        "title": {
+          "en": "Key Features",
+          "ar": "أهم المميزات",
+          "ku": "تایبەتمەندییە سەرەکییەکان"
+        },
+        "details": {
+          "en": "<p>Everything you need to launch content quickly.</p>",
+          "ar": "<p>كل ما تحتاجه لإطلاق المحتوى بسرعة.</p>",
+          "ku": "<p>هەموو شتێک بۆ لەناو بردنی ناوەڕۆک بەخێرایی.</p>"
+        },
+        "features": [
+          {
+            "icon": "⚡",
+            "title": {
+              "en": "Fast publishing",
+              "ar": "نشر سريع",
+              "ku": "بڵاودانی خێرا"
+            },
+            "description": {
+              "en": "React Query keeps data in sync.",
+              "ar": "React Query يحافظ على تزامن البيانات.",
+              "ku": "React Query داتا هەمان کات نوێ دەکاتەوە."
+            }
+          },
+          {
+            "icon": "🔄",
+            "title": {
+              "en": "Live syncing",
+              "ar": "مزامنة مباشرة",
+              "ku": "هاوکاتکرنی ڕاستەوخۆ"
+            },
+            "description": {
+              "en": "Admin edits instantly hit public pages.",
+              "ar": "تعديلات المشرف تظهر فوراً على الصفحات العامة.",
+              "ku": "دەستکاریکردنی بەڕێوەبەر دەست بەکاری گشتی دەکات."
+            }
+          }
+        ]
+      },
+      "layout": {
+        "bg": "light",
+        "padding": "lg"
+      },
+      "order": 2
+    },
+    {
+      "id": 3,
+      "pageId": 2,
+      "type": "image-left",
+      "content": {
+        "title": {
+          "en": "Our Mission",
+          "ar": "مهمتنا",
+          "ku": "ئامانجەکەمان"
+        },
+        "details": {
+          "en": "<p>We empower multilingual teams with intuitive tooling.</p>",
+          "ar": "<p>نمكّن الفرق متعددة اللغات بأدوات بديهية.</p>",
+          "ku": "<p>ئێمە تیمە فرەزمانەکان بە ئامرازە ئاسانەکان دەهێزین.</p>"
+        },
+        "image": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzM0OThkYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+T3VyIE1pc3Npb248L3RleHQ+PC9zdmc+",
+        "button": null,
+        "shareText": {
+          "en": "Read about our direction",
+          "ar": "اقرأ عن توجهنا",
+          "ku": "سەیری ئاراستەی ئێمە بکە"
+        }
+      },
+      "layout": {
+        "imagePosition": "left",
+        "bg": "white",
+        "padding": "lg"
+      },
+      "order": 1
+    },
+    {
+      "id": 4,
+      "pageId": 2,
+      "type": "testimonials",
+      "content": {
+        "title": {
+          "en": "What teams say",
+          "ar": "ماذا تقول الفرق",
+          "ku": "ئەوەی تیمەکان دەڵێن"
+        },
+        "details": {
+          "en": "<p>Feedback from early adopters.</p>",
+          "ar": "<p>آراء المستخدمين الأوائل.</p>",
+          "ku": "<p>فیدباکی بەکارهێنەرانی یەکەم.</p>"
+        },
+        "testimonials": [
+          {
+            "name": "Sara",
+            "role": {
+              "en": "Content Lead",
+              "ar": "مسؤولة المحتوى",
+              "ku": "سەرپەرشتیاری ناوەڕۆک"
+            },
+            "text": {
+              "en": "Persistent data means no more lost work.",
+              "ar": "البيانات الدائمة تعني عدم فقدان العمل بعد الآن.",
+              "ku": "داتای هەمیشەیی واتە کار لەدەست نایەت."
+            },
+            "avatar": "👩‍💻"
+          }
+        ]
+      },
+      "layout": {
+        "bg": "light",
+        "padding": "lg"
+      },
+      "order": 2
+    }
+  ],
+  "templates": [],
+  "surveys": [
+    {
+      "id": 1,
+      "slug": "customer-feedback",
+      "title": {
+        "en": "Customer Feedback Survey",
+        "ar": "استبيان ملاحظات العملاء",
+        "ku": "ڕاپرسی وەڵامدانەوەی کڕیار"
+      },
+      "description": {
+        "en": "Share your thoughts so we can keep improving.",
+        "ar": "شارك أفكارك حتى نواصل التحسين.",
+        "ku": "بۆ باشترکردن، بیرۆکەت پێمان بڵێ."
+      },
+      "isPublic": true,
+      "questions": [
+        {
+          "id": "q1",
+          "type": "text",
+          "question": {
+            "en": "What is your name?",
+            "ar": "ما اسمك؟",
+            "ku": "ناوت چییە؟"
+          },
+          "required": true
+        },
+        {
+          "id": "q2",
+          "type": "single-choice",
+          "question": {
+            "en": "How satisfied are you with the CMS?",
+            "ar": "ما مدى رضاك عن نظام إدارة المحتوى؟",
+            "ku": "چەند ڕازت لە سیستەمی ناوەڕۆکەکە؟"
+          },
+          "required": true,
+          "options": [
+            {
+              "id": "opt1",
+              "text": {
+                "en": "Very satisfied",
+                "ar": "راضٍ جداً",
+                "ku": "زۆر ڕازیم"
+              }
+            },
+            {
+              "id": "opt2",
+              "text": {
+                "en": "Satisfied",
+                "ar": "راضٍ",
+                "ku": "ڕازیم"
+              }
+            },
+            {
+              "id": "opt3",
+              "text": {
+                "en": "Needs work",
+                "ar": "يحتاج عملاً",
+                "ku": "پێویستی بە باشترکردن هەیە"
+              }
+            }
+          ]
+        },
+        {
+          "id": "q3",
+          "type": "multi-choice",
+          "question": {
+            "en": "Which features do you use?",
+            "ar": "ما المزايا التي تستخدمها؟",
+            "ku": "کام تایبەتمەندی بەکاردێنیت؟"
+          },
+          "required": false,
+          "options": [
+            {
+              "id": "feat1",
+              "text": {
+                "en": "Page builder",
+                "ar": "منشئ الصفحات",
+                "ku": "دروستکەری پەڕە"
+              }
+            },
+            {
+              "id": "feat2",
+              "text": {
+                "en": "Survey builder",
+                "ar": "منشئ الاستبيانات",
+                "ku": "دروستکەری ڕاپرسی"
+              }
+            },
+            {
+              "id": "feat3",
+              "text": {
+                "en": "Theme tools",
+                "ar": "أدوات السمات",
+                "ku": "ئامرازی ڕووکار"
+              }
+            }
+          ]
+        }
+      ],
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    }
+  ],
+  "surveyResponses": [],
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@example.com",
+      "password": "password123",
+      "name": "Admin User",
+      "role": "admin"
+    }
+  ],
+  "settings": [
+    {
+      "id": 1,
+      "defaultLanguage": "en",
+      "theme": "system"
+    }
+  ]
+}
+
