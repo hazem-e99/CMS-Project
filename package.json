@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "mock:json": "json-server --watch db.json --port 5000 --delay 200"
+    "mock:json": "node scripts/start-json-server.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
