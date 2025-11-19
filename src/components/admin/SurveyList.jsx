@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { surveysAPI } from '../../services/api';
+import { surveysService } from '../../services/surveysService';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { ConfirmDialog } from '../ui/Modal';
 import { copyToClipboard } from '../../utils/share';
+import { Loading } from '../ui/Loading';
 
 /**
  * Survey List Component
@@ -20,14 +21,24 @@ export const SurveyList = () => {
 
   const { data: surveys = [], isLoading } = useQuery({
     queryKey: ['surveys'],
-    queryFn: surveysAPI.getAll,
-    select: (data) => data.surveys || data,
+    queryFn: surveysService.getSurveys,
   });
 
   const deleteMutation = useMutation({
-    mutationFn: surveysAPI.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['surveys']);
+    mutationFn: surveysService.deleteSurvey,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['surveys'] });
+      const previousSurveys = queryClient.getQueryData(['surveys']) || [];
+      queryClient.setQueryData(['surveys'], (old = []) => old.filter((survey) => survey.id !== id));
+      return { previousSurveys };
+    },
+    onError: (_error, _vars, context) => {
+      if (context?.previousSurveys) {
+        queryClient.setQueryData(['surveys'], context.previousSurveys);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['surveys'] });
       setDeleteId(null);
     },
   });
@@ -45,7 +56,7 @@ export const SurveyList = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading text="Loading surveys..." />;
   }
 
   return (

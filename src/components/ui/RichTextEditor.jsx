@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useTransition } from 'react';
 
 /**
  * Rich Text Editor Component
@@ -17,10 +17,13 @@ export const RichTextEditor = ({
   const [mode, setMode] = useState('visual'); // 'visual' or 'html'
   const [content, setContent] = useState(value || '');
   const textareaRef = useRef(null);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
-    setContent(value || '');
-  }, [value]);
+    startTransition(() => {
+      setContent(value || '');
+    });
+  }, [value, startTransition]);
 
   const handleContentChange = (newContent) => {
     setContent(newContent);

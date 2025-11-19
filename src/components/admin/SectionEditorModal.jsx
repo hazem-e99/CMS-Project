@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { sectionsAPI } from '../../services/api';
+import { sectionsService } from '../../services/sectionsService';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { Input, Select } from '../ui/Input';
@@ -43,18 +43,21 @@ export const SectionEditorModal = ({ section, pageId, isOpen, onClose }) => {
   });
 
   const [formData, setFormData] = useState(createDefaultFormData);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
-    if (section) {
-      setFormData({
-        type: section.type || 'header',
-        content: { ...createDefaultFormData().content, ...(section.content || {}) },
-        layout: { ...createDefaultFormData().layout, ...(section.layout || {}) },
-      });
-    } else {
-      setFormData(createDefaultFormData());
-    }
-  }, [section]);
+    startTransition(() => {
+      if (section) {
+        setFormData({
+          type: section.type || 'header',
+          content: { ...createDefaultFormData().content, ...(section.content || {}) },
+          layout: { ...createDefaultFormData().layout, ...(section.layout || {}) },
+        });
+      } else {
+        setFormData(createDefaultFormData());
+      }
+    });
+  }, [section, startTransition]);
 
   const saveMutation = useMutation({
     mutationFn: (data) => {
@@ -62,11 +65,13 @@ export const SectionEditorModal = ({ section, pageId, isOpen, onClose }) => {
         ...data,
         pageId,
       };
-      return isNew ? sectionsAPI.create(payload) : sectionsAPI.update(section.id, payload);
+      return isNew
+        ? sectionsService.createSection(payload)
+        : sectionsService.updateSection(section.id, payload);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['sections', pageId]);
-      queryClient.invalidateQueries(['page', pageId]);
+      queryClient.invalidateQueries({ queryKey: ['sections', pageId] });
+      queryClient.invalidateQueries({ queryKey: ['page', pageId] });
       onClose();
     },
   });

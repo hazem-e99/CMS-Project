@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { pagesAPI, sectionsAPI } from '../../services/api';
+import { pagesService } from '../../services/pagesService';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Input, Select, Checkbox } from '../ui/Input';
 import { Tabs } from '../ui/Tabs';
 import { SectionList } from './SectionList';
 import { SectionEditorModal } from './SectionEditorModal';
+import { Loading } from '../ui/Loading';
 
 /**
  * Page Editor Component
@@ -33,9 +34,9 @@ export const PageEditor = () => {
   const [isCreatingSection, setIsCreatingSection] = useState(false);
 
   // Fetch page data
-  const { data: pageData, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['page', id],
-    queryFn: () => pagesAPI.getById(id),
+    queryFn: () => pagesService.getPage(id),
     enabled: !isNew,
     onSuccess: (data) => {
       setFormData({
@@ -51,17 +52,16 @@ export const PageEditor = () => {
   // Fetch all pages for parent selection
   const { data: allPages = [] } = useQuery({
     queryKey: ['pages'],
-    queryFn: pagesAPI.getAll,
-    select: (data) => data.pages || data,
+    queryFn: pagesService.getPages,
   });
 
   const saveMutation = useMutation({
-    mutationFn: (data) => isNew ? pagesAPI.create(data) : pagesAPI.update(id, data),
+    mutationFn: (data) => (isNew ? pagesService.createPage(data) : pagesService.updatePage(id, data)),
     onSuccess: (data) => {
       queryClient.invalidateQueries(['pages']);
       queryClient.invalidateQueries(['page', id]);
       if (isNew) {
-        navigate(`/admin/pages/${data.id || data.page?.id}`);
+        navigate(`/admin/pages/${data.id}`);
       }
     },
   });
@@ -89,7 +89,7 @@ export const PageEditor = () => {
   ];
 
   if (isLoading && !isNew) {
-    return <div>Loading...</div>;
+    return <Loading text="Loading page..." />;
   }
 
   const languages = [

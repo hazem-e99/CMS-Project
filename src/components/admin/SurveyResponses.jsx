@@ -2,10 +2,11 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { surveysAPI } from '../../services/api';
+import { surveysService } from '../../services/surveysService';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { exportToCSV, formatSurveyResponsesForCSV } from '../../utils/csvExport';
+import { Loading } from '../ui/Loading';
 
 /**
  * Survey Responses Component
@@ -18,13 +19,12 @@ export const SurveyResponses = () => {
 
   const { data: survey, isLoading: surveyLoading } = useQuery({
     queryKey: ['survey', id],
-    queryFn: () => surveysAPI.getById(id),
+    queryFn: () => surveysService.getSurvey(id),
   });
 
   const { data: responses = [], isLoading: responsesLoading } = useQuery({
     queryKey: ['survey-responses', id],
-    queryFn: () => surveysAPI.getResponses(id),
-    select: (data) => data.surveyResponses || data,
+    queryFn: () => surveysService.getResponses(id),
   });
 
   const handleExportCSV = () => {
@@ -36,7 +36,7 @@ export const SurveyResponses = () => {
   };
 
   if (surveyLoading || responsesLoading) {
-    return <div>Loading...</div>;
+    return <Loading text="Loading responses..." />;
   }
 
   if (!survey) {

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { surveysAPI } from '../../services/api';
+import { surveysService } from '../../services/surveysService';
 import { Button } from '../ui/Button';
-import { Input, Textarea, Checkbox } from '../ui/Input';
+import { Textarea } from '../ui/Input';
 import { Loading } from '../ui/Loading';
 
 /**
@@ -20,8 +20,7 @@ export const SurveyPage = () => {
   // Fetch all surveys to find by slug
   const { data: surveys } = useQuery({
     queryKey: ['surveys'],
-    queryFn: surveysAPI.getAll,
-    select: (data) => data.surveys || data,
+    queryFn: surveysService.getSurveys,
   });
 
   const survey = surveys?.find(s => s.slug === slug);
@@ -29,12 +28,12 @@ export const SurveyPage = () => {
   // Fetch full survey data
   const { data: surveyData, isLoading } = useQuery({
     queryKey: ['survey', survey?.id],
-    queryFn: () => surveysAPI.getById(survey.id),
+    queryFn: () => surveysService.getSurvey(survey.id),
     enabled: !!survey?.id,
   });
 
   const submitMutation = useMutation({
-    mutationFn: (data) => surveysAPI.submitResponse(surveyData.id, data),
+    mutationFn: (data) => surveysService.submitResponse(surveyData.id, data),
     onSuccess: () => {
       setSubmitted(true);
     },

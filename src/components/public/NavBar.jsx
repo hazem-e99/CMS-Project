@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { pagesAPI } from '../../services/api';
+import { pagesService } from '../../services/pagesService';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -16,8 +16,7 @@ export const NavBar = () => {
   
   const { data: pages = [] } = useQuery({
     queryKey: ['pages'],
-    queryFn: pagesAPI.getAll,
-    select: (data) => data.pages || data,
+    queryFn: pagesService.getPages,
   });
 
   // Filter visible pages for navbar

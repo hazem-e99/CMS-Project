@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { surveysAPI } from '../../services/api';
+import { surveysService } from '../../services/surveysService';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Input, Textarea, Select, Checkbox } from '../ui/Input';
@@ -23,6 +23,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Loading } from '../ui/Loading';
 
 /**
  * Survey Editor Component
@@ -43,9 +44,9 @@ export const SurveyEditor = () => {
     questions: [],
   });
 
-  const { data: surveyData, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['survey', id],
-    queryFn: () => surveysAPI.getById(id),
+    queryFn: () => surveysService.getSurvey(id),
     enabled: !isNew,
     onSuccess: (data) => {
       setFormData({
@@ -59,12 +60,12 @@ export const SurveyEditor = () => {
   });
 
   const saveMutation = useMutation({
-    mutationFn: (data) => isNew ? surveysAPI.create(data) : surveysAPI.update(id, data),
+    mutationFn: (data) => (isNew ? surveysService.createSurvey(data) : surveysService.updateSurvey(id, data)),
     onSuccess: (data) => {
       queryClient.invalidateQueries(['surveys']);
       queryClient.invalidateQueries(['survey', id]);
       if (isNew) {
-        navigate(`/admin/surveys/${data.id || data.survey?.id}`);
+        navigate(`/admin/surveys/${data.id}`);
       }
     },
   });
@@ -147,7 +148,7 @@ export const SurveyEditor = () => {
   ];
 
   if (isLoading && !isNew) {
-    return <div>Loading...</div>;
+    return <Loading text="Loading survey..." />;
   }
 
   return (

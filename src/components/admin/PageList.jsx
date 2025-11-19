@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { pagesAPI } from '../../services/api';
+import { pagesService } from '../../services/pagesService';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { ConfirmDialog } from '../ui/Modal';
 import { Checkbox } from '../ui/Input';
+import { Loading } from '../ui/Loading';
 import {
   DndContext,
   closestCenter,
@@ -36,25 +37,45 @@ export const PageList = () => {
 
   const { data: pages = [], isLoading } = useQuery({
     queryKey: ['pages'],
-    queryFn: pagesAPI.getAll,
-    select: (data) => {
-      const pageList = data.pages || data;
-      return pageList.sort((a, b) => (a.order || 0) - (b.order || 0));
-    },
+    queryFn: pagesService.getPages,
   });
 
   const deleteMutation = useMutation({
-    mutationFn: pagesAPI.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['pages']);
+    mutationFn: pagesService.deletePage,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['pages'] });
+      const previousPages = queryClient.getQueryData(['pages']) || [];
+      queryClient.setQueryData(['pages'], (old = []) => old.filter((page) => page.id !== id));
+      return { previousPages };
+    },
+    onError: (_error, _id, context) => {
+      if (context?.previousPages) {
+        queryClient.setQueryData(['pages'], context.previousPages);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['pages'] });
       setDeleteId(null);
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => pagesAPI.update(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['pages']);
+    mutationFn: ({ id, data }) => pagesService.updatePage(id, data),
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries({ queryKey: ['pages'] });
+      const previousPages = queryClient.getQueryData(['pages']) || [];
+      queryClient.setQueryData(['pages'], (old = []) =>
+        old.map((page) => (page.id === id ? { ...page, ...data } : page))
+      );
+      return { previousPages };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousPages) {
+        queryClient.setQueryData(['pages'], context.previousPages);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['pages'] });
     },
   });
 
@@ -68,7 +89,7 @@ export const PageList = () => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (!over || active.id !== over.id) {
       const oldIndex = pages.findIndex((p) => p.id === active.id);
       const newIndex = pages.findIndex((p) => p.id === over.id);
 
@@ -105,7 +126,7 @@ export const PageList = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading text="Loading pages..." />;
   }
 
   return (

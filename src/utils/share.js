@@ -75,6 +75,7 @@ export const copyToClipboard = async (text) => {
     await navigator.clipboard.writeText(text);
     return true;
   } catch (error) {
+    console.warn('Clipboard API unavailable, using legacy fallback.', error);
     // Fallback method
     const textArea = document.createElement('textarea');
     textArea.value = text;

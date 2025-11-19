@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { sectionsAPI } from '../../services/api';
+import { sectionsService } from '../../services/sectionsService';
 import { Button } from '../ui/Button';
 import { ConfirmDialog } from '../ui/Modal';
+import { Loading } from '../ui/Loading';
 import {
   DndContext,
   closestCenter,
@@ -30,29 +31,55 @@ export const SectionList = ({ pageId, onEdit }) => {
   const queryClient = useQueryClient();
   const [deleteId, setDeleteId] = useState(null);
 
+  const normalizedPageId = pageId;
   const { data: sections = [], isLoading } = useQuery({
-    queryKey: ['sections', pageId],
-    queryFn: () => sectionsAPI.getAll(pageId),
-    select: (data) => {
-      const sectionList = data.sections || data;
-      return sectionList.sort((a, b) => (a.order || 0) - (b.order || 0));
-    },
+    queryKey: ['sections', normalizedPageId],
+    queryFn: () => sectionsService.getSectionsByPage(normalizedPageId),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: sectionsAPI.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['sections', pageId]);
-      queryClient.invalidateQueries(['page', pageId]);
+    mutationFn: sectionsService.deleteSection,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['sections', normalizedPageId] });
+      const previousSections = queryClient.getQueryData(['sections', normalizedPageId]) || [];
+      queryClient.setQueryData(['sections', normalizedPageId], (old = []) =>
+        old.filter((section) => section.id !== id)
+      );
+      return { previousSections };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousSections) {
+        queryClient.setQueryData(['sections', normalizedPageId], context.previousSections);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['sections', normalizedPageId] });
+      queryClient.invalidateQueries({ queryKey: ['page', normalizedPageId] });
       setDeleteId(null);
     },
   });
 
   const reorderMutation = useMutation({
-    mutationFn: sectionsAPI.reorder,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['sections', pageId]);
-      queryClient.invalidateQueries(['page', pageId]);
+    mutationFn: sectionsService.reorderSections,
+    onMutate: async (reorderData) => {
+      await queryClient.cancelQueries({ queryKey: ['sections', normalizedPageId] });
+      const previousSections = queryClient.getQueryData(['sections', normalizedPageId]) || [];
+      queryClient.setQueryData(['sections', normalizedPageId], (old = []) =>
+        [...old].map((section) => {
+          const nextOrder = reorderData.find((item) => item.id === section.id)?.order;
+          return nextOrder ? { ...section, order: nextOrder } : section;
+        }).sort((a, b) => (a.order || 0) - (b.order || 0))
+      );
+      return { previousSections };
+    },
+    onError: (_error, _vars, context) => {
+      if (context?.previousSections) {
+        queryClient.setQueryData(['sections', normalizedPageId], context.previousSections);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['sections', normalizedPageId] });
+      queryClient.invalidateQueries({ queryKey: ['page', normalizedPageId] });
     },
   });
 
@@ -66,7 +93,7 @@ export const SectionList = ({ pageId, onEdit }) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (!over || active.id !== over.id) {
       const oldIndex = sections.findIndex((s) => s.id === active.id);
       const newIndex = sections.findIndex((s) => s.id === over.id);
 
@@ -91,7 +118,7 @@ export const SectionList = ({ pageId, onEdit }) => {
   };
 
   if (isLoading) {
-    return <div>Loading sections...</div>;
+    return <Loading text="Loading sections..." />;
   }
 
   if (sections.length === 0) {

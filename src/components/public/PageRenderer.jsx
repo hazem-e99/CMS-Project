@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useTranslation } from 'react-i18next';
-import { pagesAPI } from '../../services/api';
+import { pagesService } from '../../services/pagesService';
+import { sectionsService } from '../../services/sectionsService';
 import { SectionRenderer } from './SectionRenderer';
 import { Loading } from '../ui/Loading';
 
@@ -12,13 +12,11 @@ import { Loading } from '../ui/Loading';
  */
 export const PageRenderer = () => {
   const { slug } = useParams();
-  const { i18n } = useTranslation();
 
   // Fetch all pages to find the one with matching slug
   const { data: pages, isLoading: pagesLoading } = useQuery({
     queryKey: ['pages'],
-    queryFn: pagesAPI.getAll,
-    select: (data) => data.pages || data,
+    queryFn: pagesService.getPages,
   });
 
   // Find page by slug
@@ -27,11 +25,17 @@ export const PageRenderer = () => {
   // Fetch full page data with sections
   const { data: pageData, isLoading: pageLoading } = useQuery({
     queryKey: ['page', page?.id],
-    queryFn: () => pagesAPI.getById(page.id),
+    queryFn: () => pagesService.getPage(page.id),
     enabled: !!page?.id,
   });
 
-  if (pagesLoading || pageLoading) {
+  const { data: sections = [], isLoading: sectionsLoading } = useQuery({
+    queryKey: ['sections', page?.id],
+    queryFn: () => sectionsService.getSectionsByPage(page.id),
+    enabled: !!page?.id,
+  });
+
+  if (pagesLoading || pageLoading || sectionsLoading) {
     return <Loading size="lg" text="Loading page..." />;
   }
 
@@ -56,8 +60,6 @@ export const PageRenderer = () => {
     );
   }
 
-  const pageTitle = page.title?.[i18n.language] || page.title?.en || page.slug;
-  const sections = pageData.sectionsData || [];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -72,7 +74,7 @@ export const PageRenderer = () => {
 
       {/* Render Sections */}
       {sections.length > 0 ? (
-        sections.map(section => (
+        sections.map((section) => (
           <SectionRenderer key={section.id} section={section} />
         ))
       ) : (
